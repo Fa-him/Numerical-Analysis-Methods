@@ -1,25 +1,24 @@
-def solve():
-    n = int(input("Enter the number of equations: "))
-    v = []
+n=int(input("Enter number of equation: "))
+v=[]
+print("Enter the co-efficients: ")
+for i in range(n):
+    v.append(list(map(float, input().split())))
+    
+for i in range(n):
+    for j in range(i+1, n):
+        r=v[j][i]/v[i][i]
+        for k in range(n+1):
+            v[j][k]-=r*v[i][k]
 
-    print("Enter the coefficients of the augmented matrix row-wise (including constants):")
-    for i in range(n):
-        v.append(list(map(float, input().split())))
+print("\nRoots are: ")
+ar=[0]*n
+for i in range(n-1, -1, -1):
+    sum_val=0
+    
+    for j in range(i + 1, n):  
+        sum_val += v[i][j] * ar[j]
 
-    for i in range(n):
-        for j in range(i + 1, n):
-            r = v[j][i] / v[i][i]
-            for k in range(n + 1):
-                v[j][k] -= r * v[i][k]
+    ar[i]=(v[i][n]-sum_val)/v[i][i]
 
-    print("\nRoots are:")
-    ar = [0] * n
-    for i in range(n - 1, -1, -1):
-        sum_val = sum(v[i][j] * ar[j] for j in range(i + 1, n))
-        ar[i] = (v[i][n] - sum_val) / v[i][i]
-
-    for i in range(n):
-        print(f"x[{i + 1}] = {ar[i]}")
-
-if __name__ == "__main__":
-    solve()
+for i in range(n):
+    print(f"x[{i+1}]={ar[i]}")
